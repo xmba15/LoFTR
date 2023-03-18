@@ -190,7 +190,8 @@ class CoarseMatching(nn.Module):
 
         # 3. find all valid coarse matches
         # this only works when at most one `True` in each row
-        mask_v, all_j_ids = mask.max(dim=2)
+        mask_v, all_j_ids = mask.int().max(dim=2)
+        del mask
         b_ids, i_ids = torch.where(mask_v)
         j_ids = all_j_ids[b_ids, i_ids]
         mconf = conf_matrix[b_ids, i_ids, j_ids]
